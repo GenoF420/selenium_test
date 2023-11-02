@@ -5,17 +5,49 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 
+#comando para correr el script
 # pytest --html=report_functional.html test_functional.py
 
+#Fixture para inicializar y finalizar el driver de Selenium.
 @pytest.fixture
 def driver():
     driver = webdriver.Chrome()
     yield driver 
     driver.quit()
+  
     
-    ################ WORKING TEST  ########################
+def test_successful_login(driver):
+    """
+    Verifica que un usuario pueda iniciar sesión exitosamente.
+
+    Pasos:
+    1. Navega a la página principal.
+    2. Introduce las credenciales válidas de un usuario.
+    3. Hace clic en el botón de login.
+    4. Verifica que la URL actual sea la de la página de inventario.
+
+    Errores conocidos:
+    Ninguno.
+    """
+    driver.get("https://www.saucedemo.com/")
+    driver.find_element(By.ID, "user-name").send_keys("standard_user")
+    driver.find_element(By.ID, "password").send_keys("secret_sauce")
+    driver.find_element(By.ID, "login-button").click()
+    assert driver.current_url == "https://www.saucedemo.com/inventory.html"
+    
     
 def test_logout(driver):
+    """
+    Verifica que un usuario pueda cerrar sesión exitosamente.
+    Pasos:
+    1. Navega a la página principal e inicia sesión.
+    2. Abre el menú lateral.
+    3. Hace clic en el enlace de logout.
+    4. Verifica que la URL actual sea la de la página principal.
+
+    Errores conocidos:
+    Ninguno.
+    """
     driver.get("https://www.saucedemo.com/")
     driver.find_element(By.ID, "user-name").send_keys("standard_user")
     driver.find_element(By.ID, "password").send_keys("secret_sauce")
@@ -28,156 +60,81 @@ def test_logout(driver):
     assert driver.current_url == "https://www.saucedemo.com/"
 
 
-# def test_successful_login(driver):
-#     driver.get("https://www.saucedemo.com/")
-#     driver.find_element(By.ID, "user-name").send_keys("standard_user")
-#     driver.find_element(By.ID, "password").send_keys("secret_sauce")
-#     driver.find_element(By.ID, "login-button").click()
-#     assert driver.current_url == "https://www.saucedemo.com/inventory.html"
-
-# def test_failed_login(driver):
-#     driver.get("https://www.saucedemo.com/")
-#     driver.find_element(By.ID, "user-name").send_keys("invalid_user")
-#     driver.find_element(By.ID, "password").send_keys("invalid_password")
-#     driver.find_element(By.ID, "login-button").click()
-#     assert driver.find_element(By.XPATH, "//div[@class='error-message-container error']").is_displayed()
-
-# def test_add_product_to_cart(driver):
-#     driver.get("https://www.saucedemo.com/")
-#     driver.find_element(By.ID, "user-name").send_keys("standard_user")
-#     driver.find_element(By.ID, "password").send_keys("secret_sauce")
-#     driver.find_element(By.ID, "login-button").click()
-#     driver.find_element(By.XPATH, "//div[contains(text(),'Sauce Labs Backpack')]/ancestor::div[@class='inventory_item']//button").click()
-#     assert driver.find_element(By.CLASS_NAME, "shopping_cart_badge").text == "1"
 
 
-# def test_remove_product_from_cart(driver):
-#     driver.get("https://www.saucedemo.com/")
-#     driver.find_element(By.ID, "user-name").send_keys("standard_user")
-#     driver.find_element(By.ID, "password").send_keys("secret_sauce")
-#     driver.find_element(By.ID, "login-button").click()
-#     # Añadir producto al carrito
-#     driver.find_element(By.XPATH, "//div[contains(text(),'Sauce Labs Backpack')]/ancestor::div[@class='inventory_item']//button").click()
-#     # Ir al carrito y remover el producto
-#     driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
-#     driver.find_element(By.ID, "remove-sauce-labs-backpack").click()
-#     # Verificar que el carrito esté vacío
-#     cart_badge_elements = driver.find_elements(By.CLASS_NAME, "shopping_cart_badge")
-#     assert len(cart_badge_elements) == 0
-
-
-# def test_order_products(driver):
-#     driver.get("https://www.saucedemo.com/")
-#     driver.find_element(By.ID, "user-name").send_keys("standard_user")
-#     driver.find_element(By.ID, "password").send_keys("secret_sauce")
-#     driver.find_element(By.ID, "login-button").click()
-#     driver.find_element(By.XPATH, "//select/option[text()='Price (high to low)']").click()
-#     products_prices = driver.find_elements(By.CLASS_NAME, "inventory_item_price")
-#     prices = [float(price.text[1:]) for price in products_prices]
-#     assert prices == sorted(prices, reverse=True)
-
-# # test ver detalle sauce labs backpack, tiene id = 4
-# def test_verify_product_details(driver):
-#     driver.get("https://www.saucedemo.com/")
-#     driver.find_element(By.ID, "user-name").send_keys("standard_user")
-#     driver.find_element(By.ID, "password").send_keys("secret_sauce")
-#     driver.find_element(By.ID, "login-button").click()
-#     driver.find_element(By.XPATH, "//div[text()='Sauce Labs Backpack']").click()
-#     assert driver.current_url == "https://www.saucedemo.com/inventory-item.html?id=4"
-
-# def test_successful_checkout(driver):
-#     driver.get("https://www.saucedemo.com/")
-#     driver.find_element(By.ID, "user-name").send_keys("standard_user")
-#     driver.find_element(By.ID, "password").send_keys("secret_sauce")
-#     driver.find_element(By.ID, "login-button").click()
-#     driver.find_element(By.CSS_SELECTOR, "button.btn_inventory").click()  # Añadir al carrito
-#     driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
-#     driver.find_element(By.CSS_SELECTOR, "button.checkout_button").click()  # Modificado
-#     driver.find_element(By.ID, "first-name").send_keys("John")
-#     driver.find_element(By.ID, "last-name").send_keys("Doe")
-#     driver.find_element(By.ID, "postal-code").send_keys("12345")
-#     driver.find_element(By.CSS_SELECTOR, "input.cart_button").click()  # Modificado
-#     driver.find_element(By.ID, "finish").click()
-#     assert driver.current_url == "https://www.saucedemo.com/checkout-complete.html"
-
-
-# def test_verify_product_price_in_cart(driver):
-#     driver.get("https://www.saucedemo.com/")
-#     driver.find_element(By.ID, "user-name").send_keys("standard_user")
-#     driver.find_element(By.ID, "password").send_keys("secret_sauce")
-#     driver.find_element(By.ID, "login-button").click()
-#     product_price = driver.find_element(By.CSS_SELECTOR, ".inventory_item_price").text
-#     driver.find_element(By.CSS_SELECTOR, "button.btn_inventory").click()
-#     driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
-#     cart_price = driver.find_element(By.CSS_SELECTOR, ".inventory_item_price").text
-#     assert product_price == cart_price
-
-
-# def test_verify_continue_shopping_button(driver):
-#     driver.get("https://www.saucedemo.com/")
-#     driver.find_element(By.ID, "user-name").send_keys("standard_user")
-#     driver.find_element(By.ID, "password").send_keys("secret_sauce")
-#     driver.find_element(By.ID, "login-button").click()
-#     driver.find_element(By.CSS_SELECTOR, "button.btn_inventory").click() #hace click en el primer botón "btn_inventory"
-#     driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
-#     driver.find_element(By.ID, "continue-shopping").click()  # Modificado
-#     assert driver.current_url == "https://www.saucedemo.com/inventory.html"
+    #################### TEST USING PROBLEM_USER ############################ 
 
 
 
+def test_successful_checkout(driver):
+    """
+    Verifica que el usuario 'problem_user' pueda completar el proceso de checkout.
 
-    ############## TEST USING PROBLEM_USER ############################ 
+    Pasos:
+    1. Navega a la página principal e inicia sesión como 'problem_user'.
+    2. Añade un producto al carrito y procede al checkout.
+    3. Completa los detalles del checkout y finaliza la compra.
+    4. Verifica que la URL actual sea la página de confirmación de checkout.
 
-# def test_successful_checkout(driver):
-#     driver.get("https://www.saucedemo.com/")
-#     driver.find_element(By.ID, "user-name").send_keys("problem_user")  # Modificado
-#     driver.find_element(By.ID, "password").send_keys("secret_sauce")
-#     driver.find_element(By.ID, "login-button").click()
-#     driver.find_element(By.CSS_SELECTOR, "button.btn_inventory").click()  # Añadir al carrito
-#     driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
-#     driver.find_element(By.CSS_SELECTOR, "button.checkout_button").click()  # Modificado
-#     driver.find_element(By.ID, "first-name").send_keys("John")
-#     driver.find_element(By.ID, "last-name").send_keys("Doe")
-#     driver.find_element(By.ID, "postal-code").send_keys("12345")
-#     time.sleep(5); ## para poder ver cuando ocurre el error
-#     driver.find_element(By.CSS_SELECTOR, "input.cart_button").click()  # Modificado
-#     driver.find_element(By.ID, "finish").click()
-#     assert driver.current_url == "https://www.saucedemo.com/checkout-complete.html"
-#     #no se puede agregar el Lastname, por lo que no deja seguir avanzando con el checkout
-
-# def test_filter_functionality(driver):
-#     driver.get("https://www.saucedemo.com/")
-#     driver.find_element(By.ID, "user-name").send_keys("problem_user")
-#     driver.find_element(By.ID, "password").send_keys("secret_sauce")
-#     driver.find_element(By.ID, "login-button").click()
+    Errores conocidos:
+    - No se puede agregar el Lastname, por lo que no deja seguir avanzando con el checkout.
+    """
     
-#     # Obtiene el nombre del primer producto antes de aplicar el filtro
-#     product_name_before = driver.find_element(By.CSS_SELECTOR, ".inventory_item_name").text
+    driver.get("https://www.saucedemo.com/")
+    driver.find_element(By.ID, "user-name").send_keys("problem_user")  # Modificado
+    driver.find_element(By.ID, "password").send_keys("secret_sauce")
+    driver.find_element(By.ID, "login-button").click()
+    driver.find_element(By.CSS_SELECTOR, "button.btn_inventory").click()  # Añadir al carrito
+    driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
+    driver.find_element(By.CSS_SELECTOR, "button.checkout_button").click()  # Modificado
+    driver.find_element(By.ID, "first-name").send_keys("John")
+    driver.find_element(By.ID, "last-name").send_keys("Doe")
+    driver.find_element(By.ID, "postal-code").send_keys("12345")
+    #time.sleep(5); ## para poder ver cuando ocurre el error
+    driver.find_element(By.CSS_SELECTOR, "input.cart_button").click()  # Modificado
+    driver.find_element(By.ID, "finish").click()
+    assert driver.current_url == "https://www.saucedemo.com/checkout-complete.html"
+    #"No se puede agregar el Lastname, por lo que no deja seguir avanzando con el checkout"
+
+
+
+def test_filter_functionality(driver):
+    """
+    Verifica la funcionalidad de filtro en la página de inventario con el usuario 'problem_user'.
+
+    Pasos:
+    1. Navega a la página principal e inicia sesión como 'problem_user'.
+    2. En la página de inventario, registra el nombre del primer producto.
+    3. Aplica un filtro de 'Name (Z to A)'.
+    4. Registra nuevamente el nombre del primer producto.
+    5. Verifica que el nombre del primer producto haya cambiado, indicando que el filtro se aplicó correctamente.
+
+    Errores conocidos:
+    Ningún tipo de filtro disponible funciona con este usuario.
+    """
+    driver.get("https://www.saucedemo.com/")
+    driver.find_element(By.ID, "user-name").send_keys("problem_user")
+    driver.find_element(By.ID, "password").send_keys("secret_sauce")
+    driver.find_element(By.ID, "login-button").click()
     
-#     # Selecciona la opción de filtro 'Name (Z to A)'
-#     filter_option = Select(driver.find_element(By.CLASS_NAME, "product_sort_container"))
-#     filter_option.select_by_visible_text("Name (Z to A)")
+    # Obtiene el nombre del primer producto antes de aplicar el filtro
+    product_name_before = driver.find_element(By.CSS_SELECTOR, ".inventory_item_name").text
     
-#     # Obtiene el nombre del primer producto después de aplicar el filtro
-#     product_name_after = driver.find_element(By.CSS_SELECTOR, ".inventory_item_name").text
+    # Selecciona la opción de filtro 'Name (Z to A)'
+    filter_option = Select(driver.find_element(By.CLASS_NAME, "product_sort_container"))
+    filter_option.select_by_visible_text("Name (Z to A)")
     
-#     # Asegura que el nombre del primer producto haya cambiado después de aplicar el filtro
-#     assert product_name_before != product_name_after, f"El filtro no funcionó, nombre del ítem antes del filtro: {product_name_before}, es igual a después del filtro: {product_name_after}"
+    # Obtiene el nombre del primer producto después de aplicar el filtro
+    product_name_after = driver.find_element(By.CSS_SELECTOR, ".inventory_item_name").text
     
-    
-    
-######################  TO TEST ###########################
+    # Asegura que el nombre del primer producto haya cambiado después de aplicar el filtro
+    assert product_name_before != product_name_after, f"El filtro no funcionó, nombre del ítem antes del filtro: {product_name_before}, es igual a después del filtro: {product_name_after}"
 
 
 
 
 
-
-
-
-
-
-##ERRORS
+##ERRORES ENCONTRADOS
 # Se puede realizar el proceso de compra sin seleccionar ningún artículo.
 # No hay restricciones para la información del comprador, ej, la cantidad de caracteres que se pueden ingresar, una combinación de caracteres o números para los nombres.
 # No se puede agregar más unidades de los artículos elegidos, solo 1 por artículo.
