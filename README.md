@@ -25,9 +25,6 @@ Las pruebas no funcionales se enfocan en el rendimiento y la estabilidad de la p
 - No se puede agregar el Lastname en el checkout, lo que impide completar el proceso.
 - Se puede realizar el proceso de compra sin seleccionar ningún artículo.
 
- Usando el PROBLEM USER se encontró lo siguiente:
-- En el checkout no se puede agregar el Lastname, por lo que no deja seguir avanzando y da error.
- El filtro de nombres no funcionó, no se puede aplicar filtro.
 
 ## Dependencias
 - Python 3.x
