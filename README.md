@@ -35,4 +35,4 @@ Las pruebas no funcionales se enfocan en el rendimiento y la estabilidad de la p
 Para ejecutar las pruebas, usa el siguiente comando en la terminal en la raíz del proyecto:
 
 ```bash
-pytest --html=report_functional.html test_functional.py
+pytest --html=report_functional.html --css=style.css  test_functional.py
