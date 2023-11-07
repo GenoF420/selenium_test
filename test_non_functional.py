@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 
-# pytest --html=report_functional.html test_functional.py
+# pytest --html=report_functional.html --css=style.css test_functional.py
 
 #Fixture para inicializar y finalizar el driver de Selenium.
 @pytest.fixture
