@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 
 #comando para correr el script
-# pytest --html=report_functional.html test_functional.py
+# pytest --html=report_functional.html --css=style.css  test_functional.py
 
 #Fixture para inicializar y finalizar el driver de Selenium.
 @pytest.fixture
@@ -213,18 +213,53 @@ def driver():
 #     assert driver.current_url == "https://www.saucedemo.com/checkout-complete.html", "La URL no coincide con la esperada después del checkout."
 
     
-def test_verify_product_price_in_cart(driver):
+# def test_verify_product_price_in_cart(driver):
+#     """
+#     Verifica que el precio del producto en la página de inventario coincida con el precio mostrado en el carrito.
+
+#     Pasos:
+#     1. Navega a la página de inicio de sesión.
+#     2. Inicia sesión con credenciales válidas.
+#     3. Obtiene el precio del primer producto listado.
+#     4. Añade ese producto al carrito.
+#     5. Navega al carrito de compras.
+#     6. Obtiene el precio del producto dentro del carrito.
+#     7. Compara ambos precios para asegurarse de que coinciden.
+
+#     Errores conocidos:
+#     Ninguno.
+#     """
+#     # Navegar a la página de inicio de sesión
+#     driver.get("https://www.saucedemo.com/")
+#     # Ingresar usuario y contraseña
+#     driver.find_element(By.ID, "user-name").send_keys("standard_user")
+#     driver.find_element(By.ID, "password").send_keys("secret_sauce")
+#     # Iniciar sesión
+#     driver.find_element(By.ID, "login-button").click()
+#     # Obtener precio del primer producto en la página de inventario
+#     product_price = driver.find_element(By.CSS_SELECTOR, ".inventory_item_price").text
+#     # Añadir el primer producto al carrito
+#     driver.find_element(By.CSS_SELECTOR, "button.btn_inventory").click()
+#     # Navegar al carrito de compras
+#     driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
+#     # Obtener precio del producto en el carrito de compras
+#     cart_price = driver.find_element(By.CSS_SELECTOR, ".inventory_item_price").text
+#     # Asegurarse de que los precios coinciden
+#     assert product_price == cart_price, "El precio del producto en la página de inventario no coincide con el del carrito."
+
+    
+
+def test_verify_continue_shopping_button(driver):
     """
-    Verifica que el precio del producto en la página de inventario coincida con el precio mostrado en el carrito.
+    Verifica que el botón 'Continuar comprando' redirija al usuario de vuelta a la página de inventario.
 
     Pasos:
     1. Navega a la página de inicio de sesión.
     2. Inicia sesión con credenciales válidas.
-    3. Obtiene el precio del primer producto listado.
-    4. Añade ese producto al carrito.
-    5. Navega al carrito de compras.
-    6. Obtiene el precio del producto dentro del carrito.
-    7. Compara ambos precios para asegurarse de que coinciden.
+    3. Añade un producto al carrito.
+    4. Navega al carrito de compras.
+    5. Hace clic en el botón 'Continuar comprando'.
+    6. Verifica que la URL actual sea la de la página de inventario.
 
     Errores conocidos:
     Ninguno.
@@ -236,18 +271,16 @@ def test_verify_product_price_in_cart(driver):
     driver.find_element(By.ID, "password").send_keys("secret_sauce")
     # Iniciar sesión
     driver.find_element(By.ID, "login-button").click()
-    # Obtener precio del primer producto en la página de inventario
-    product_price = driver.find_element(By.CSS_SELECTOR, ".inventory_item_price").text
     # Añadir el primer producto al carrito
     driver.find_element(By.CSS_SELECTOR, "button.btn_inventory").click()
     # Navegar al carrito de compras
     driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
-    # Obtener precio del producto en el carrito de compras
-    cart_price = driver.find_element(By.CSS_SELECTOR, ".inventory_item_price").text
-    # Asegurarse de que los precios coinciden
-    assert product_price == cart_price, "El precio del producto en la página de inventario no coincide con el del carrito."
+    # Hacer clic en el botón 'Continuar comprando'
+    driver.find_element(By.ID, "continue-shopping").click()
+    # Confirmar que se redirige a la página de inventario
+    assert driver.current_url == "https://www.saucedemo.com/inventory.html", "La URL después de hacer clic en 'Continuar comprando' no es la esperada."
 
-    
+
 
     #################### TEST USING PROBLEM_USER ############################ 
 

@@ -317,3 +317,81 @@ div.media {
 .filter__label {
   margin-right: 10px;
 }
+
+/******************************
+ * CUSTOM CSS
+ * style.css
+ ******************************/
+
+body {
+    font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    color: #333;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    border-bottom: 2px solid #eaecef;
+    padding-bottom: 0.3rem;
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: white;
+  }
+  
+  th, td {
+    padding: 0.75rem;
+    text-align: left;
+    border-top: 1px solid #eaecef;
+  }
+  
+  th {
+    font-weight: 500;
+    background-color: #f8f8f8;
+  }
+
+  .status.passed {
+    color: #28a745;
+  }
+  
+  .status.failed {
+    color: #dc3545;
+  }
+  
+  .status.error {
+    color: #ffc107;
+  }
+  
+  .status.skipped {
+    color: #17a2b8;
+  }
+  
+  button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+    color: white;
+  }
+  
