@@ -30,9 +30,13 @@ def test_failed_login(driver):
     Ninguno.
     """
     driver.get("https://www.saucedemo.com/")
+    time.sleep(1)
     driver.find_element(By.ID, "user-name").send_keys("invalid_user")
+    time.sleep(1)
     driver.find_element(By.ID, "password").send_keys("invalid_password")
+    time.sleep(1)
     driver.find_element(By.ID, "login-button").click()
+    time.sleep(1)
     error_message = driver.find_element(By.CSS_SELECTOR, "div.error-message-container.error")
     assert error_message.is_displayed()
 
@@ -43,7 +47,7 @@ def test_logout(driver):
     Pasos:
     1. Navega a la página principal e inicia sesión.
     2. Abre el menú lateral.
-    3. Hace clic en el enlace de logout.
+    3. Hace click en el enlace de logout.
     4. Verifica que la URL actual sea la de la página principal.
 
     Errores conocidos:
@@ -51,8 +55,11 @@ def test_logout(driver):
     """
     driver.get("https://www.saucedemo.com/")
     driver.find_element(By.ID, "user-name").send_keys("standard_user")
+    time.sleep(1)
     driver.find_element(By.ID, "password").send_keys("secret_sauce")
+    time.sleep(1)
     driver.find_element(By.ID, "login-button").click()
+    time.sleep(1)
     driver.find_element(By.ID, "react-burger-menu-btn").click()
     WebDriverWait(driver, 5).until(
         EC.visibility_of_element_located((By.ID, "logout_sidebar_link"))
@@ -68,7 +75,7 @@ def test_failed_login(driver):
     Pasos:
     1. Navega a la página de inicio de sesión.
     2. Introduce un nombre de usuario y contraseña inválidos.
-    3. Hace clic en el botón de login.
+    3. Hace click en el botón de login.
     4. Verifica que el mensaje de error se muestre correctamente.
 
     Errores conocidos:
@@ -77,7 +84,9 @@ def test_failed_login(driver):
     driver.get("https://www.saucedemo.com/")
     driver.find_element(By.ID, "user-name").send_keys("invalid_user")
     driver.find_element(By.ID, "password").send_keys("invalid_password")
+    time.sleep(1)
     driver.find_element(By.ID, "login-button").click()
+    time.sleep(1)
     error_message = driver.find_element(By.CSS_SELECTOR, "div.error-message-container.error")
     assert error_message.is_displayed()
     
@@ -102,8 +111,8 @@ def test_add_product_to_cart(driver):
     driver.find_element(By.ID, "user-name").send_keys("standard_user")
     driver.find_element(By.ID, "password").send_keys("secret_sauce")
     driver.find_element(By.ID, "login-button").click()
-
-    # Suponiendo que 'Sauce Labs Backpack' tiene un botón con un ID o una clase única, actualizamos el siguiente selector.
+    time.sleep(1)
+    
     driver.find_element(By.CSS_SELECTOR, "button[name='add-to-cart-sauce-labs-backpack']").click()
 
     # Verifica que el ícono del carrito muestre "1"
@@ -128,10 +137,8 @@ def test_remove_product_from_cart(driver):
     """
     # Navegar a la página de inicio de sesión
     driver.get("https://www.saucedemo.com/")
-    # Ingresar usuario y contraseña
     driver.find_element(By.ID, "user-name").send_keys("standard_user")
     driver.find_element(By.ID, "password").send_keys("secret_sauce")
-    # Iniciar sesión
     driver.find_element(By.ID, "login-button").click()
     # Añadir producto al carrito
     driver.find_element(By.CSS_SELECTOR, "button[name='add-to-cart-sauce-labs-backpack']").click()
@@ -158,61 +165,16 @@ def test_verify_product_details(driver):
     Errores conocidos:
     Ninguno.
     """
-    # Navegar a la página de inicio de sesión
+
     driver.get("https://www.saucedemo.com/")
-    # Ingresar usuario y contraseña
     driver.find_element(By.ID, "user-name").send_keys("standard_user")
     driver.find_element(By.ID, "password").send_keys("secret_sauce")
-    # Iniciar sesión
     driver.find_element(By.ID, "login-button").click()
     # Seleccionar el producto 'Sauce Labs Backpack' para ver los detalles
-    driver.find_element(By.ID, "item_4_title_link").click()  # Usamos el ID que es más específico y menos propenso a cambios que un XPath
+    driver.find_element(By.ID, "item_4_title_link").click()  
     # Verificar que la URL actual contenga el ID correcto del producto
     assert driver.current_url == "https://www.saucedemo.com/inventory-item.html?id=4", "La URL no coincide con la esperada para los detalles del producto."
 
-
-def test_successful_checkout(driver):
-    """
-    Verifica que el proceso de checkout se complete exitosamente.
-
-    Pasos:
-    1. Navega a la página de inicio de sesión.
-    2. Inicia sesión con credenciales válidas.
-    3. Añade un producto al carrito.
-    4. Navega al carrito de compras.
-    5. Inicia el proceso de checkout.
-    6. Completa los datos de facturación.
-    7. Finaliza el proceso de checkout.
-    8. Verifica que la URL actual sea la de la página de confirmación de checkout.
-
-    Errores conocidos:
-    Ninguno.
-    """
-    # Navegar a la página de inicio de sesión
-    driver.get("https://www.saucedemo.com/")
-    # Ingresar usuario y contraseña
-    driver.find_element(By.ID, "user-name").send_keys("standard_user")
-    driver.find_element(By.ID, "password").send_keys("secret_sauce")
-    # Iniciar sesión
-    driver.find_element(By.ID, "login-button").click()
-    # Añadir el primer producto disponible al carrito
-    driver.find_element(By.CSS_SELECTOR, "button.btn_inventory").click()
-    # Navegar al carrito de compras
-    driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
-    # Iniciar el proceso de checkout
-    driver.find_element(By.CSS_SELECTOR, "button.checkout_button").click()
-    # Completar información del comprador
-    driver.find_element(By.ID, "first-name").send_keys("John")
-    driver.find_element(By.ID, "last-name").send_keys("Doe")
-    driver.find_element(By.ID, "postal-code").send_keys("12345")
-    # Continuar con el checkout
-    driver.find_element(By.CSS_SELECTOR, "input.cart_button").click()
-    # Finalizar el proceso de checkout
-    driver.find_element(By.ID, "finish").click()
-    # Verificar que se haya redirigido a la página de confirmación de checkout
-    assert driver.current_url == "https://www.saucedemo.com/checkout-complete.html", "La URL no coincide con la esperada después del checkout."
-
-    
 def test_verify_product_price_in_cart(driver):
     """
     Verifica que el precio del producto en la página de inventario coincida con el precio mostrado en el carrito.
@@ -229,12 +191,9 @@ def test_verify_product_price_in_cart(driver):
     Errores conocidos:
     Ninguno.
     """
-    # Navegar a la página de inicio de sesión
     driver.get("https://www.saucedemo.com/")
-    # Ingresar usuario y contraseña
     driver.find_element(By.ID, "user-name").send_keys("standard_user")
     driver.find_element(By.ID, "password").send_keys("secret_sauce")
-    # Iniciar sesión
     driver.find_element(By.ID, "login-button").click()
     # Obtener precio del primer producto en la página de inventario
     product_price = driver.find_element(By.CSS_SELECTOR, ".inventory_item_price").text
@@ -264,12 +223,9 @@ def test_verify_continue_shopping_button(driver):
     Errores conocidos:
     Ninguno.
     """
-    # Navegar a la página de inicio de sesión
     driver.get("https://www.saucedemo.com/")
-    # Ingresar usuario y contraseña
     driver.find_element(By.ID, "user-name").send_keys("standard_user")
     driver.find_element(By.ID, "password").send_keys("secret_sauce")
-    # Iniciar sesión
     driver.find_element(By.ID, "login-button").click()
     # Añadir el primer producto al carrito
     driver.find_element(By.CSS_SELECTOR, "button.btn_inventory").click()
@@ -280,6 +236,46 @@ def test_verify_continue_shopping_button(driver):
     # Confirmar que se redirige a la página de inventario
     assert driver.current_url == "https://www.saucedemo.com/inventory.html", "La URL después de hacer clic en 'Continuar comprando' no es la esperada."
 
+
+def test_successful_checkout(driver):
+    """
+    Verifica que el proceso de checkout se complete exitosamente.
+
+    Pasos:
+    1. Navega a la página de inicio de sesión.
+    2. Inicia sesión con credenciales válidas.
+    3. Añade un producto al carrito.
+    4. Navega al carrito de compras.
+    5. Inicia el proceso de checkout.
+    6. Completa los datos de facturación.
+    7. Finaliza el proceso de checkout.
+    8. Verifica que la URL actual sea la de la página de confirmación de checkout.
+
+    Errores conocidos:
+    Ninguno.
+    """
+    driver.get("https://www.saucedemo.com/")
+    driver.find_element(By.ID, "user-name").send_keys("standard_user")
+    driver.find_element(By.ID, "password").send_keys("secret_sauce")
+    driver.find_element(By.ID, "login-button").click()
+    # Añadir el primer producto disponible al carrito
+    driver.find_element(By.CSS_SELECTOR, "button.btn_inventory").click()
+    # Navegar al carrito de compras
+    driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
+    # Iniciar el proceso de checkout
+    driver.find_element(By.CSS_SELECTOR, "button.checkout_button").click()
+    # Completar información del comprador
+    driver.find_element(By.ID, "first-name").send_keys("John")
+    driver.find_element(By.ID, "last-name").send_keys("Doe")
+    driver.find_element(By.ID, "postal-code").send_keys("12345")
+    # Continuar con el checkout
+    driver.find_element(By.CSS_SELECTOR, "input.cart_button").click()
+    # Finalizar el proceso de checkout
+    driver.find_element(By.ID, "finish").click()
+    # Verificar que se haya redirigido a la página de confirmación de checkout
+    assert driver.current_url == "https://www.saucedemo.com/checkout-complete.html", "La URL no coincide con la esperada después del checkout."
+
+    
 
 
     #################### TEST USING PROBLEM_USER ############################ 
@@ -310,7 +306,7 @@ def test_successful_checkout(driver):
     driver.find_element(By.ID, "first-name").send_keys("John")
     driver.find_element(By.ID, "last-name").send_keys("Doe")
     driver.find_element(By.ID, "postal-code").send_keys("12345")
-    #time.sleep(5); ## para poder ver cuando ocurre el error
+    time.sleep(3); ## para poder ver cuando ocurre el error
     driver.find_element(By.CSS_SELECTOR, "input.cart_button").click()  # Modificado
     driver.find_element(By.ID, "finish").click()
     assert driver.current_url == "https://www.saucedemo.com/checkout-complete.html"
