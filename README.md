@@ -50,4 +50,4 @@ pytest --html=report_functional.html --css=style.css  test_functional.py
 ```
 No Funcional:
 ```bash
-pytest --html=report_functional.html --css=style.css test_functional.py
+pytest --html=report_non_functional.html --css=style.css test_non_functional.py
