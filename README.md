@@ -1,3 +1,60 @@
+# EN
+# Testing the Sauce Demo Page with Selenium
+
+## Description
+This project contains a series of automated tests written in Python using Selenium WebDriver to verify the functionality and performance of the Sauce Demo website.
+
+## Functional Tests
+Functional tests ensure that the website's features work as intended. The tests include:
+
+- **test_failed_login:** Verifies that a user with invalid credentials receives an error message.
+- **test_logout:** Verifies that a user can log out successfully.
+- **test_failed_login:** Verifies that a user with invalid credentials receives an error message.
+- **test_add_product_to_cart:** Verifies that a product can be successfully added to the cart.
+- **test_remove_product_from_cart:** Verifies that a product can be successfully removed from the cart.
+- **test_verify_product_details:** Verifies that a product’s details are displayed correctly.
+- **test_verify_product_price_in_cart:** Verifies that the product price on the inventory page matches the price shown in the cart.
+- **test_verify_continue_shopping_button:** Verifies that the 'Continue Shopping' button redirects the user back to the inventory page.
+- **test_successful_checkout:** Verifies that the checkout process is completed successfully.
+- **test_successful_checkout (problem_user):** Verifies that the 'problem_user' can complete the checkout process.
+- **test_filter_functionality:** Verifies that a user can log out successfully.
+- **test_logout:** Verifies the filter functionality on the inventory page with the 'problem_user.'
+
+## Non-Functional Tests
+Non-functional tests focus on the performance and stability of the site. They include:
+
+- **test_login_time:** Measures the time it takes to log in and ensures it is under 4 seconds.
+- **test_navigation_performance:** Evaluates the navigation time to the cart and back to inventory, ensuring they are less than 4 and 3 seconds, respectively.
+
+## Known Issues (6):
+- During checkout, the Lastname cannot be added, preventing progress and causing an error.
+- The name filter did not work, making it impossible to apply the filter.
+- Excessive loading time when logging in.
+- Excessive loading time when loading the inventory after clicking "continue shopping" from the shopping cart.
+- Lastname cannot be added during checkout, preventing the process from being completed.
+- It is possible to complete the purchase process without selecting any items.
+  
+## Dependencies
+- Python 3.x
+- pytest~=7.4.3
+- selenium~=4.15.2
+- pytest-html~=3.1.1
+- py~=1.11.0
+
+## Running the Tests
+To run the tests, use the following command in the terminal at the project's root:
+
+Functional:
+```bash
+pytest --html=report_functional.html --css=style.css  test_functional.py
+```
+Non-Functional:
+```bash
+pytest --html=report_non_functional.html --css=style.css test_non_functional.py
+```
+-----------------------------------------------------------------------------------------
+# ESP
+
 # Testing de la página Sauce Demo con Selenium
 
 ## Descripción
